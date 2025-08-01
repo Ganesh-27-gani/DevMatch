@@ -1,6 +1,7 @@
 import jwt from 'jsonwebtoken';
 import User from '../models/User.js';
 
+const JWT_SECRET = process.env.JWT_SECRET || 'devmatch_secret';
 
 export const verifyToken = async (req, res, next) => {
   const authHeader = req.headers.authorization;
@@ -11,7 +12,7 @@ export const verifyToken = async (req, res, next) => {
 
   try {
     const token = authHeader.split(' ')[1];
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const decoded = jwt.verify(token, JWT_SECRET);
 
     req.user = await User.findById(decoded.id).select('-password');
     if (!req.user) return res.status(401).json({ msg: 'User not found' });
@@ -21,10 +22,14 @@ export const verifyToken = async (req, res, next) => {
     return res.status(401).json({ msg: 'Invalid token', error: err.message });
   }
 };
-
-export const isAdmin = (req, res, next) => {
-  if (req.user.role !== 'admin') {
-    return res.status(403).json({ msg: 'Access denied. Admins only.' });
+export const verifyAdmin = (req, res, next) => {
+  try {
+    if (req.user?.role !== 'admin') {
+      return res.status(403).json({ msg: 'Access denied: Admins only' });
+    }
+    next();
+  } catch (err) {
+    res.status(500).json({ msg: 'Authorization error', error: err.message });
   }
-  next();
 };
+

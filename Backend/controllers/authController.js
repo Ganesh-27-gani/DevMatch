@@ -2,16 +2,16 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import User from '../models/User.js';
 
-const JWT_SECRET = process.env.JWT_SECRET || 'devmatch_secret';  
+const JWT_SECRET = process.env.JWT_SECRET || 'devmatch_secret';
 
+const otpStore = new Map();
 
- const otpStore = new Map();
-
+ 
 export const register = async (req, res) => {
   try {
     const { name, email, password, phone, role } = req.body;
 
-     const existingEmail = await User.findOne({ email });
+    const existingEmail = await User.findOne({ email });
     if (existingEmail) return res.status(400).json({ msg: 'Email already in use' });
 
     const existingPhone = await User.findOne({ phone });
@@ -19,9 +19,9 @@ export const register = async (req, res) => {
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
-     const otp = Math.floor(100000 + Math.random() * 900000).toString();
+    const otp = Math.floor(100000 + Math.random() * 900000).toString();
 
-     otpStore.set(phone.toString(), otp);
+    otpStore.set(phone.toString(), otp);
     otpStore.set(`${phone}_user`, {
       name,
       email,
@@ -30,7 +30,7 @@ export const register = async (req, res) => {
       role,
     });
 
-     console.log(` OTP sent to ${phone}: ${otp}`);
+    console.log(`OTP sent to ${phone}: ${otp}`);
 
     res.status(200).json({ msg: 'OTP sent to phone. Please verify.' });
   } catch (err) {
@@ -39,6 +39,7 @@ export const register = async (req, res) => {
   }
 };
 
+ 
 export const verifyOtp = async (req, res) => {
   try {
     const { phone, otp } = req.body;
@@ -50,10 +51,10 @@ export const verifyOtp = async (req, res) => {
     const userData = otpStore.get(`${phone}_user`);
     if (!userData) return res.status(400).json({ msg: 'User data not found' });
 
-     const newUser = new User(userData);
+    const newUser = new User(userData);
     await newUser.save();
 
-     otpStore.delete(phone.toString());
+    otpStore.delete(phone.toString());
     otpStore.delete(`${phone}_user`);
 
     res.status(201).json({ msg: 'User registered successfully' });
@@ -63,18 +64,18 @@ export const verifyOtp = async (req, res) => {
   }
 };
 
-
+ 
 export const login = async (req, res) => {
   try {
     const { email, password } = req.body;
 
-     const user = await User.findOne({ email });
+    const user = await User.findOne({ email });
     if (!user) return res.status(404).json({ msg: 'User not found' });
 
-     const isMatch = await bcrypt.compare(password, user.password);
+    const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) return res.status(400).json({ msg: 'Invalid credentials' });
 
-     const token = jwt.sign(
+    const token = jwt.sign(
       { id: user._id, role: user.role },
       JWT_SECRET,
       { expiresIn: '7d' }
