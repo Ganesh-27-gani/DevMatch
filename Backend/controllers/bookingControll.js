@@ -39,8 +39,7 @@ export const editMyBooking = async (req, res) => {
     const booking = await Booking.findById(bookingId);
     if (!booking) return res.status(404).json({ msg: 'Booking not found' });
 
-    // Fix: convert both IDs to string for comparison
-    if (booking.customer.toString() !== req.user._id.toString()) {
+     if (booking.customer.toString() !== req.user._id.toString()) {
       return res.status(403).json({ msg: 'Unauthorized: Not your booking' });
     }
 
@@ -62,8 +61,7 @@ export const deleteMyBooking = async (req, res) => {
     const booking = await Booking.findById(bookingId);
     if (!booking) return res.status(404).json({ msg: 'Booking not found' });
 
-    // Fix: convert both to strings before comparison
-    if (booking.customer.toString() !== req.user._id.toString()) {
+     if (booking.customer.toString() !== req.user._id.toString()) {
       return res.status(403).json({ msg: 'Unauthorized: Not your booking' });
     }
 
