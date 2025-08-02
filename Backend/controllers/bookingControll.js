@@ -1,5 +1,5 @@
 import Booking from '../models/Booking.js';
-import User from '../models/User.js';
+ import mongoose from 'mongoose';
 
 
 export const createBooking = async (req, res) => {
@@ -21,35 +21,55 @@ export const createBooking = async (req, res) => {
 };
 
 
+
 export const getMyBookings = async (req, res) => {
   try {
-    const bookings = await Booking.find({ customer: req.user._id });
+    const userId = new mongoose.Types.ObjectId(req.user._id);  
+    const bookings = await Booking.find({ customer: userId }).populate('assignedTo', 'name email');
     res.status(200).json(bookings);
   } catch (err) {
     res.status(500).json({ msg: 'Error fetching bookings', error: err.message });
   }
 };
-export const assignBooking = async (req, res) => {
-  try {
-    const { id } = req.params; // booking ID
-    const { developerId, deadline } = req.body;
 
-    const booking = await Booking.findById(id);
+export const editMyBooking = async (req, res) => {
+  const bookingId = req.params.id;
+
+  try {
+    const booking = await Booking.findById(bookingId);
     if (!booking) return res.status(404).json({ msg: 'Booking not found' });
 
-    const developer = await User.findById(developerId);
-    if (!developer || developer.role !== 'developer') {
-      return res.status(400).json({ msg: 'Invalid developer ID' });
+    // Fix: convert both IDs to string for comparison
+    if (booking.customer.toString() !== req.user._id.toString()) {
+      return res.status(403).json({ msg: 'Unauthorized: Not your booking' });
     }
 
-    booking.assignedTo = developerId;
-    booking.status = 'assigned';
-    booking.deadline = deadline;
+    const updated = await Booking.findByIdAndUpdate(
+      bookingId,
+      { $set: req.body },
+      { new: true }
+    );
 
-    await booking.save();
-
-    res.status(200).json({ msg: 'Booking assigned to developer', booking });
+    res.status(200).json({ msg: 'Booking updated', booking: updated });
   } catch (err) {
-    res.status(500).json({ msg: 'Assignment failed', error: err.message });
+    res.status(500).json({ msg: 'Error updating booking', error: err.message });
+  }
+};
+
+export const deleteMyBooking = async (req, res) => {
+  const bookingId = req.params.id;
+  try {
+    const booking = await Booking.findById(bookingId);
+    if (!booking) return res.status(404).json({ msg: 'Booking not found' });
+
+    // Fix: convert both to strings before comparison
+    if (booking.customer.toString() !== req.user._id.toString()) {
+      return res.status(403).json({ msg: 'Unauthorized: Not your booking' });
+    }
+
+    await Booking.findByIdAndDelete(bookingId);
+    res.status(200).json({ msg: 'Booking deleted successfully' });
+  } catch (err) {
+    res.status(500).json({ msg: 'Error deleting booking', error: err.message });
   }
 };
