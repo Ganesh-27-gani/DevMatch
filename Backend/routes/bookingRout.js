@@ -1,10 +1,12 @@
 import express from 'express';
-import { createBooking, deleteMyBooking, editMyBooking, getMyBookings } from '../controllers/bookingControll.js';
-import   {  verifyAdmin, verifyToken } from '../verifytoken/verify.js';
+import { createRazorpayOrder, deleteMyBooking, editMyBooking, getMyBookings, verifyAndCreateBooking } from '../controllers/bookingControll.js';
+import   {  verifyToken } from '../verifytoken/verify.js';
  
 const router = express.Router();
  
-router.post('/create', verifyToken, createBooking);
+ 
+router.post('/payment/order', verifyToken, createRazorpayOrder);
+router.post('/verify', verifyToken, verifyAndCreateBooking);
 router.get('/my-bookings', verifyToken, getMyBookings);
 router.put('/my-bookings/:id', verifyToken, editMyBooking);
 router.delete('/my-bookings/:id', verifyToken, deleteMyBooking);

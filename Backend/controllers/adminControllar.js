@@ -4,9 +4,9 @@ import User from '../models/User.js';
 export const getAllBookings = async (req, res) => {
   try {
     const bookings = await Booking.find()
-      .populate('customer', 'name email role')        // Populate customer info
-      .populate('assignedTo', 'name email role')      // Populate developer info
-      .sort({ createdAt: -1 });                        // Optional: sort by latest first
+      .populate('customer', 'name email role')         
+      .populate('assignedTo', 'name email role')       
+      .sort({ createdAt: -1 });                         
 
     res.status(200).json(bookings);
   } catch (err) {
