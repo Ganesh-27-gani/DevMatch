@@ -1,69 +1,52 @@
-import React from 'react';
-import register from "./assets/images/register1.png";
-import "./Register.css";
+import React, { useState } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { BASE_URL } from "./utils/config";
 
-function Register() {
+function VerifyOtp() {
+  const navigate = useNavigate();
+  const [otp, setOtp] = useState("");
+
+  // get phone/email from localStorage
+  const phone = localStorage.getItem("otp_phone");
+
+  const handleVerify = async (e) => {
+    e.preventDefault();
+
+    try {
+      await axios.post(`${BASE_URL}/auth/verify-otp`, {
+        phone, // for mobile OTP
+        otp,
+      });
+
+      alert("OTP verified successfully ✅");
+      localStorage.removeItem("otp_phone"); // cleanup
+      navigate("/login"); // redirect to login
+    } catch (err) {
+      alert(err.response?.data?.msg || "OTP verification failed");
+    }
+  };
+
   return (
-    <div className="container">
-      <div className="row justify-content-center mt-5">
+    <div className="register-wrapper">
+      <div className="register-card">
+        <form className="register-form" onSubmit={handleVerify}>
+          <h2>Verify OTP</h2>
+          <p>Enter the OTP sent to your phone/email</p>
 
-        <div className="col-md-8">
-          <div className="card p-4 register-card">
-            <div className="row align-items-center">
+          <input
+            type="text"
+            placeholder="Enter OTP"
+            value={otp}
+            onChange={(e) => setOtp(e.target.value)}
+            required
+          />
 
-              {/* LEFT – FORM */}
-              <div className="col-md-6 form-animate">
-                <h2 className="mb-4 text-center fw-bold">Register</h2>
-
-                <form>
-                  <div className="mb-3">
-                    <label className="form-label fw-bold">Name</label>
-                    <input type="text" className="form-control" />
-                  </div>
-
-                  <div className="mb-3">
-                    <label className="form-label fw-bold">Email</label>
-                    <input type="email" className="form-control" />
-                  </div>
-
-                  <div className="mb-3">
-                    <label className="form-label fw-bold">Phone Number</label>
-                    <input type="number" className="form-control" />
-                  </div>
-
-                  <div className="mb-3">
-                    <label className="form-label fw-bold">Password</label>
-                    <input type="password" className="form-control" />
-                  </div>
-
-                  <div className="mb-3 form-check">
-                    <input type="checkbox" className="form-check-input" />
-                    <label className="form-check-label">Check me out</label>
-                  </div>
-
-                  <button className="btn btn-primary w-100 fw-bold">
-                    Submit
-                  </button>
-                </form>
-              </div>
-
-              {/* RIGHT – IMAGE */}
-              <div className="col-md-6 image-animate text-center">
-                <img
-                  src={register}
-                  alt="Register"
-                  className="img-fluid"
-                  style={{ maxHeight: "300px" }}
-                />
-              </div>
-
-            </div>
-          </div>
-        </div>
-
+          <button className="register-btn">Verify →</button>
+        </form>
       </div>
     </div>
   );
 }
 
-export default Register;
+export default VerifyOtp;

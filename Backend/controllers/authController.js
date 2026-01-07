@@ -9,58 +9,66 @@ const otpStore = new Map();
  
 export const register = async (req, res) => {
   try {
-    const { name, email, password, phone, role } = req.body;
+    const { name, email, password, role } = req.body;
 
-    const existingEmail = await User.findOne({ email });
-    if (existingEmail) return res.status(400).json({ msg: 'Email already in use' });
-
-    const existingPhone = await User.findOne({ phone });
-    if (existingPhone) return res.status(400).json({ msg: 'Phone number already in use' });
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      return res.status(400).json({ msg: "Email already in use" });
+    }
 
     const hashedPassword = await bcrypt.hash(password, 10);
-
     const otp = Math.floor(100000 + Math.random() * 900000).toString();
 
-    otpStore.set(phone.toString(), otp);
-    otpStore.set(`${phone}_user`, {
+    otpStore.set(email, otp);
+    otpStore.set(`${email}_user`, {
       name,
       email,
       password: hashedPassword,
-      phone,
       role,
     });
 
-    console.log(`OTP sent to ${phone}: ${otp}`);
+    console.log(`📧 OTP for ${email}: ${otp}`);
 
-    res.status(200).json({ msg: 'OTP sent to phone. Please verify.' });
+    res.json({ msg: "OTP sent to email" });
   } catch (err) {
     console.error(err);
-    res.status(500).json({ msg: 'Registration error', error: err.message });
+    res.status(500).json({ msg: "Registration error" });
   }
 };
 
- 
-export const verifyOtp = async (req, res) => {
+ export const verifyOtp = async (req, res) => {
   try {
-    const { phone, otp } = req.body;
-    const storedOtp = otpStore.get(phone.toString());
+    const { email, otp } = req.body;
 
-    if (!storedOtp) return res.status(400).json({ msg: 'OTP not found for this number' });
-    if (storedOtp !== otp) return res.status(400).json({ msg: 'Invalid OTP' });
+    if (!email || !otp) {
+      return res.status(400).json({ msg: "Email and OTP required" });
+    }
 
-    const userData = otpStore.get(`${phone}_user`);
-    if (!userData) return res.status(400).json({ msg: 'User data not found' });
+    const storedOtp = otpStore.get(email);
+    if (!storedOtp) {
+      return res.status(400).json({ msg: "OTP not found" });
+    }
+
+    if (storedOtp !== otp) {
+      return res.status(400).json({ msg: "Invalid OTP" });
+    }
+
+    const userData = otpStore.get(`${email}_user`);
+    if (!userData) {
+      return res.status(400).json({ msg: "User data missing. Register again." });
+    }
 
     const newUser = new User(userData);
     await newUser.save();
 
-    otpStore.delete(phone.toString());
-    otpStore.delete(`${phone}_user`);
+    otpStore.delete(email);
+    otpStore.delete(`${email}_user`);
 
-    res.status(201).json({ msg: 'User registered successfully' });
+    res.status(201).json({ msg: "User registered successfully" });
+
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ msg: 'OTP verification error', error: err.message });
+    console.error("VERIFY OTP ERROR:", err);
+    res.status(500).json({ msg: "Server error" });
   }
 };
 

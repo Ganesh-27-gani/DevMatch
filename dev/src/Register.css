@@ -1,24 +1,87 @@
-/* Card animation */
-.register-card {
-  background-color: #b8ced5ff;
-  animation: scaleIn 0.6s ease-in-out;
+.register-wrapper {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #d7dee2;
 }
 
-/* Form slide from left */
-.form-animate {
-  animation: slideLeft 0.8s ease forwards;
+ .register-card {
+  width: 900px;
+  height: 480px;
+  display: flex;
+  border-radius: 25px;
+  background: #fff;
+  overflow: hidden;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.15);
 }
 
-/* Image slide from right */
-.image-animate {
-  animation: slideRight 0.8s ease forwards;
+ .register-form {
+  flex: 1;
+  padding: 50px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  animation: slideLeft 1s ease;
 }
 
-/* Animations */
+.register-form h2 {
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.register-form p {
+  color: gray;
+  margin-bottom: 25px;
+}
+
+.register-form span {
+  color: #8e44ad;
+  cursor: pointer;
+}
+
+ .register-form input {
+  border: 1px solid #ddd;
+  border-radius: 30px;
+  padding: 12px 18px;
+  margin-bottom: 15px;
+  outline: none;
+}
+
+ .register-btn {
+  background: linear-gradient(135deg, #a76af5, #8e44ad);
+  border: none;
+  color: white;
+  padding: 12px;
+  border-radius: 30px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: transform 0.3s;
+}
+
+.register-btn:hover {
+  transform: scale(1.05);
+}
+
+ .register-image {
+  flex: 1;
+  background: linear-gradient(180deg, #e8dbff, #ffffff);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: slideRight 1s ease;
+}
+
+.register-image img {
+  width: 80%;
+  max-height: 320px;
+}
+
+/* ANIMATIONS */
 @keyframes slideLeft {
   from {
     opacity: 0;
-    transform: translateX(-40px);
+    transform: translateX(-50px);
   }
   to {
     opacity: 1;
@@ -29,21 +92,10 @@
 @keyframes slideRight {
   from {
     opacity: 0;
-    transform: translateX(40px);
+    transform: translateX(50px);
   }
   to {
     opacity: 1;
     transform: translateX(0);
-  }
-}
-
-@keyframes scaleIn {
-  from {
-    opacity: 0;
-    transform: scale(0.95);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
   }
 }

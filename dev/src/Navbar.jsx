@@ -1,9 +1,10 @@
 import React from 'react';
-import image from "./assets/images/logo1.png"
+import image from "./assets/images/logo3.png"
+import { Link } from 'react-router-dom';
 
 function Navbar() {
     return (
-        <nav className="navbar navbar-expand-lg navbar-light" style={{ background: "#87acbbff" }}>
+        <nav className="navbar navbar-expand-lg navbar-light" style={{background:" #232323ff" }}>
             <div className="container-fluid">
 
                 <a className="navbar-brand" href="#"><img src={image} alt="#" style={{ height: "47px", width: "160px" }} /></a>
@@ -50,10 +51,10 @@ function Navbar() {
                             <ul
                                 className="dropdown-menu dropdown-menu-end"
                                 aria-labelledby="navbarDropdownMenuLink"
-                                style={{ background: "#a9c2d6ff" }}
+                                style={{ background: "#7d7d7dff" , }}
                             >
-                                <li><a className="dropdown-item" href="#">Action</a></li>
-                                <li><a className="dropdown-item" href="#">Login</a></li>
+                                <li><Link to="/regester" className="dropdown-item" href="#">Reagester</Link></li>
+                                <li><Link to="/login" className="dropdown-item" href="#">Login</Link></li>
                                 <li><a className="dropdown-item" href="#">Logout</a></li>
                             </ul>
                         </li>
