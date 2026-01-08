@@ -6,7 +6,6 @@ const JWT_SECRET = process.env.JWT_SECRET || 'devmatch_secret';
 
 const otpStore = new Map();
 
- 
 export const register = async (req, res) => {
   try {
     const { name, email, password, role } = req.body;
@@ -44,41 +43,64 @@ export const verifyOtp = async (req, res) => {
       return res.status(400).json({ msg: "Email and OTP required" });
     }
 
-     const storedOtp = otpStore.get(email);
+    const storedOtp = otpStore.get(email);
 
     if (!storedOtp) {
       return res.status(400).json({ msg: "OTP expired or not found" });
     }
 
-     if (String(storedOtp) !== String(otp)) {
+    if (String(storedOtp) !== String(otp)) {
       return res.status(400).json({ msg: "Invalid OTP" });
     }
 
-     const userData = otpStore.get(`${email}_user`);
+    const userData = otpStore.get(`${email}_user`);
 
     if (!userData) {
-      return res
-        .status(400)
-        .json({ msg: "User data missing. Please register again." });
+      return res.status(400).json({
+        msg: "User data missing. Please register again.",
+      });
     }
 
-     const newUser = new User(userData);
-
+    const newUser = new User(userData);
     await newUser.save();
 
-     otpStore.delete(email);
+    otpStore.delete(email);
     otpStore.delete(`${email}_user`);
 
     return res.status(201).json({
       msg: "OTP verified successfully, user registered",
     });
-
   } catch (err) {
     console.error("VERIFY OTP ERROR:", err.message);
     return res.status(500).json({ msg: err.message });
   }
 };
- 
+
+export const resendOtp = async (req, res) => {
+  try {
+    const { email } = req.body;
+
+    if (!email) return res.status(400).json({ msg: "Email required" });
+
+    const userData = otpStore.get(`${email}_user`);
+    if (!userData) {
+      return res.status(400).json({
+        msg: "User not found or OTP expired. Please register again.",
+      });
+    }
+
+    const newOtp = Math.floor(100000 + Math.random() * 900000).toString();
+    otpStore.set(email, newOtp);
+
+    console.log(`🔁 Resent OTP for ${email}: ${newOtp}`);
+
+    res.json({ msg: "OTP resent" });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ msg: "Server error" });
+  }
+};
+
 export const login = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -102,7 +124,6 @@ export const login = async (req, res) => {
         id: user._id,
         name: user.name,
         email: user.email,
-        phone: user.phone,
         role: user.role
       }
     });
