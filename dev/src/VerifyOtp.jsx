@@ -1,40 +1,42 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { BASE_URL } from "./utils/config";
-import { useNavigate } from "react-router-dom";
 
 function VerifyOtp() {
   const [otp, setOtp] = useState("");
-  const navigate = useNavigate();
 
-  const email = localStorage.getItem("otp_email");
+  const handleVerify = async (e) => {
+    e.preventDefault();
 
-  const handleVerify = async () => {
+    const email = localStorage.getItem("otp_email");
+
     try {
       await axios.post(`${BASE_URL}/auth/verify-otp`, {
         email,
         otp,
       });
 
-      alert("Registration successful ✅");
+      alert("Email verified successfully 🎉");
       localStorage.removeItem("otp_email");
-      navigate("/login");
-
     } catch (err) {
-      alert(err.response?.data?.msg || "OTP verification failed");
+      alert(err.response?.data?.msg || "Invalid OTP");
     }
   };
 
   return (
-    <div>
-      <h2>Verify OTP</h2>
+    <form onSubmit={handleVerify} className="register-form">
+      <h2>Verify Email OTP</h2>
+
       <input
+        type="text"
         placeholder="Enter OTP"
         value={otp}
         onChange={(e) => setOtp(e.target.value)}
+        required
       />
-      <button onClick={handleVerify}>Verify</button>
-    </div>
+
+      <button className="register-btn">Verify OTP →</button>
+    </form>
   );
 }
 

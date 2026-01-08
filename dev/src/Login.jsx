@@ -63,7 +63,7 @@ function Login() {
             New user?{" "}
             <span
               style={{ cursor: "pointer" }}
-              onClick={() => navigate("/register")}
+              onClick={() => navigate("/regester")}
             >
               Create account
             </span>

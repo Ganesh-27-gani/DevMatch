@@ -36,7 +36,7 @@ export const register = async (req, res) => {
   }
 };
 
- export const verifyOtp = async (req, res) => {
+export const verifyOtp = async (req, res) => {
   try {
     const { email, otp } = req.body;
 
@@ -44,34 +44,40 @@ export const register = async (req, res) => {
       return res.status(400).json({ msg: "Email and OTP required" });
     }
 
-    const storedOtp = otpStore.get(email);
+     const storedOtp = otpStore.get(email);
+
     if (!storedOtp) {
-      return res.status(400).json({ msg: "OTP not found" });
+      return res.status(400).json({ msg: "OTP expired or not found" });
     }
 
-    if (storedOtp !== otp) {
+     if (String(storedOtp) !== String(otp)) {
       return res.status(400).json({ msg: "Invalid OTP" });
     }
 
-    const userData = otpStore.get(`${email}_user`);
+     const userData = otpStore.get(`${email}_user`);
+
     if (!userData) {
-      return res.status(400).json({ msg: "User data missing. Register again." });
+      return res
+        .status(400)
+        .json({ msg: "User data missing. Please register again." });
     }
 
-    const newUser = new User(userData);
+     const newUser = new User(userData);
+
     await newUser.save();
 
-    otpStore.delete(email);
+     otpStore.delete(email);
     otpStore.delete(`${email}_user`);
 
-    res.status(201).json({ msg: "User registered successfully" });
+    return res.status(201).json({
+      msg: "OTP verified successfully, user registered",
+    });
 
   } catch (err) {
-    console.error("VERIFY OTP ERROR:", err);
-    res.status(500).json({ msg: "Server error" });
+    console.error("VERIFY OTP ERROR:", err.message);
+    return res.status(500).json({ msg: err.message });
   }
 };
-
  
 export const login = async (req, res) => {
   try {
