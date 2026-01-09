@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 function Navbar() {
     return (
-        <nav className="navbar navbar-expand-lg navbar-light" style={{background:" #232323ff" }}>
+        <nav className="navbar navbar-expand-lg navbar-light" style={{background:" #bf7befff" }}>
             <div className="container-fluid">
 
                 <a className="navbar-brand" href="#"><img src={image} alt="#" style={{ height: "47px", width: "160px" }} /></a>
@@ -51,7 +51,7 @@ function Navbar() {
                             <ul
                                 className="dropdown-menu dropdown-menu-end"
                                 aria-labelledby="navbarDropdownMenuLink"
-                                style={{ background: "#7d7d7dff" , }}
+                                style={{ background: "#cea4ffff" , }}
                             >
                                 <li><Link to="/regester" className="dropdown-item" href="#">Reagester</Link></li>
                                 <li><Link to="/login" className="dropdown-item" href="#">Login</Link></li>

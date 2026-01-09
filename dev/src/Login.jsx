@@ -29,14 +29,14 @@ function Login() {
       localStorage.setItem("user", JSON.stringify(res.data.user));
 
       alert("Login successful ✅");
-      navigate("/"); // or dashboard
+      navigate("/"); 
     } catch (err) {
       alert(err.response?.data?.msg || "Login failed");
     }
   };
 
   return (
-    <div className="register-wrapper">
+    <div className="register-wrapper" >
       <div className="register-card">
         <form className="register-form" onSubmit={handleSubmit}>
           <h2>Login</h2>

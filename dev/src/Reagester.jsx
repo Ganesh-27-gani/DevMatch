@@ -46,8 +46,7 @@ function Register() {
     if (form.email && !emailRegex.test(form.email))
       newErrors.email = "Enter valid email";
 
-    const strongPassword =
-      /^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*]).{6,}$/;
+    const strongPassword = /^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*]).{6,}$/;
     if (form.password && !strongPassword.test(form.password))
       newErrors.password =
         "Min 6 chars, 1 capital, 1 number, 1 symbol required";
