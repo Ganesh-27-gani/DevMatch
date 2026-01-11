@@ -4,10 +4,10 @@ import { Link } from 'react-router-dom';
 
 function Navbar() {
     return (
-        <nav className="navbar navbar-expand-lg navbar-light" style={{background:" #bf7befff" }}>
+        <nav className="navbar navbar-expand-lg navbar-light" style={{background:" rgb(3, 3, 4)" }}>
             <div className="container-fluid">
 
-                <a className="navbar-brand" href="#"><img src={image} alt="#" style={{ height: "47px", width: "160px" }} /></a>
+                <Link className="navbar-brand" to="/"><img src={image} alt="#" style={{ height: "47px", width: "160px" }} /></Link>
 
                 <button
                     className="navbar-toggler"
@@ -23,22 +23,22 @@ function Navbar() {
 
                 <div className="collapse navbar-collapse" id="navbarNavDropdown">
 
-                    <ul className="navbar-nav me-auto  " style={{fontSize:"20px"}}>
+                    <ul className="navbar-nav me-auto  " style={{fontSize:"20px", color:"red"}}>
                         <li className="nav-item"  >
-                            <a className="nav-link active "  href="#">Home</a>
+                            <Link to="/" className="nav-link active text-light "  href="#">Home</Link>
                         </li>
                         <li className="nav-item" >
-                            <a className="nav-link" href="#">Features</a>
+                            <a className="nav-link text-light" href="#">Features</a>
                         </li>
                         <li className="nav-item">
-                            <a className="nav-link" href="#">Pricing</a>
+                            <a className="nav-link text-light" href="#">Pricing</a>
                         </li>
                     </ul>
 
                     <ul className="navbar-nav ms-auto">
                         <li className="nav-item dropdown " style={{fontSize:"20px"}}>
                             <a
-                                className="nav-link dropdown-toggle active"
+                                className="nav-link dropdown-toggle active text-light"
                                 href="#"
                                 id="navbarDropdownMenuLink"
                                 role="button"

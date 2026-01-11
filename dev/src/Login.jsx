@@ -24,7 +24,7 @@ function Login() {
         password: form.password,
       });
 
-      // 🔐 save token
+      // save token
       localStorage.setItem("token", res.data.token);
       localStorage.setItem("user", JSON.stringify(res.data.user));
 
