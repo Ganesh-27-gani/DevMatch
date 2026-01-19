@@ -1,6 +1,7 @@
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import User from '../models/User.js';
+import { sendEmail } from "../utils/sendEmail.js";
 
 const JWT_SECRET = process.env.JWT_SECRET || 'devmatch_secret';
 
@@ -15,9 +16,13 @@ export const register = async (req, res) => {
       return res.status(400).json({ msg: "Email already in use" });
     }
 
+    // hash password
     const hashedPassword = await bcrypt.hash(password, 10);
+
+    // generate otp
     const otp = Math.floor(100000 + Math.random() * 900000).toString();
 
+    // store OTP + user temporarily
     otpStore.set(email, otp);
     otpStore.set(`${email}_user`, {
       name,
@@ -26,7 +31,14 @@ export const register = async (req, res) => {
       role,
     });
 
-    console.log(`📧 OTP for ${email}: ${otp}`);
+    // send email here 
+    await sendEmail(
+      email,
+      "Your OTP Verification Code",
+      `Hello ${name},\n\nYour OTP is: ${otp}\nIt is valid for 5 minutes.\n\nThank you!`
+    );
+
+    console.log(`📧 OTP sent to ${email}: ${otp}`);
 
     res.json({ msg: "OTP sent to email" });
   } catch (err) {
@@ -80,23 +92,36 @@ export const resendOtp = async (req, res) => {
   try {
     const { email } = req.body;
 
-    if (!email) return res.status(400).json({ msg: "Email required" });
+    if (!email) {
+      return res.status(400).json({ msg: "Email required" });
+    }
 
+    // check if user started registration
     const userData = otpStore.get(`${email}_user`);
     if (!userData) {
       return res.status(400).json({
-        msg: "User not found or OTP expired. Please register again.",
+        msg: "Please register again",
       });
     }
 
+    // Generate new OTP
     const newOtp = Math.floor(100000 + Math.random() * 900000).toString();
+
+    // overwrite old OTP
     otpStore.set(email, newOtp);
 
-    console.log(`🔁 Resent OTP for ${email}: ${newOtp}`);
+    // Send email
+    await sendEmail(
+      email,
+      "DevMatch OTP",
+      `Your new OTP is ${newOtp}`
+    );
 
-    res.json({ msg: "OTP resent" });
+    console.log("Resent OTP:", newOtp);
+
+    res.json({ msg: "OTP resent successfully" });
   } catch (err) {
-    console.log(err);
+    console.error(err);
     res.status(500).json({ msg: "Server error" });
   }
 };
@@ -132,7 +157,7 @@ export const login = async (req, res) => {
   }
 };
 
- 
+
 export const forgotPassword = async (req, res) => {
   const { phone } = req.body;
   const user = await User.findOne({ phone });
@@ -165,17 +190,17 @@ export const verifyOtpAndReset = async (req, res) => {
 
 export const sendProfileUpdateOtp = async (req, res) => {
   const { phone } = req.body;
-  const phoneKey = phone.toString(); 
+  const phoneKey = phone.toString();
   const otp = Math.floor(100000 + Math.random() * 900000).toString();
   otpStore.set(phoneKey, otp);
   console.log(`🔁 OTP for update ${phone}: ${otp}`);
   res.json({ msg: 'OTP sent for update verification' });
 };
 
- 
- 
 
- export const verifyOtpAndUpdateProfile = async (req, res) => {
+
+
+export const verifyOtpAndUpdateProfile = async (req, res) => {
   try {
     const { userId, name, email, phone, otp } = req.body;
     const phoneKey = phone.toString();

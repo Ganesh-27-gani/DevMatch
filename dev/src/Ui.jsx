@@ -52,9 +52,9 @@ const Ui = () => {
             website development, SEO, and comprehensive digital marketing
             solutions.
           </p>
-
           <button
             style={{
+              position: "relative",
               marginTop: "10px",
               fontSize: "18px",
               padding: "8px 20px",
@@ -66,10 +66,14 @@ const Ui = () => {
               letterSpacing: "0.5px",
               color: "white",
               cursor: "pointer",
+              display: "inline-block",
+              width: "auto",
+              alignSelf: "flex-start"
             }}
           >
             Get Started
           </button>
+
         </div>
       </div>
     </>

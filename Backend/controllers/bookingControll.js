@@ -2,7 +2,7 @@ import Booking from '../models/Booking.js';
 import mongoose from 'mongoose';
 import crypto from 'crypto';
 import razorpay from '../utils/razorpayClient.js';
-import { sendBookingConfirmation } from '../utils/emailService.js';
+import { sendEmail } from '../utils/sendEmail.js';
 
  export const createRazorpayOrder = async (req, res) => {
   try {
@@ -52,7 +52,7 @@ import { sendBookingConfirmation } from '../utils/emailService.js';
     await booking.save();
 
     // 📧 Send confirmation email
-    await sendBookingConfirmation(bookingData.email, booking);
+    await sendEmail(bookingData.email, booking);
 
     res.status(201).json({ msg: 'Payment verified, booking created', booking });
   } catch (err) {
