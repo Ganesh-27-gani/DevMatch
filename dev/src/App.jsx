@@ -1,3 +1,4 @@
+import About from './About'
 import './App.css'
 import Navbar from './Navbar'
 import Reagester from './Reagester'
@@ -10,6 +11,7 @@ function App() {
     <>
         <Navbar/>
         <Rout/>
+        {/* <About/> */}
      </>
   )
 }

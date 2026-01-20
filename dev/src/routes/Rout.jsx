@@ -4,7 +4,9 @@ import Register from '../Reagester'
 import VerifyOtp from '../VerifyOtp'
 import Login from '../Login'
 import Ui from '../ui'
-
+import About from '../About'
+import OurService from '../assets/OurService'
+ 
 
 const Rout = () => {
     return (
@@ -13,6 +15,8 @@ const Rout = () => {
             <Route path='/verifyotp' element={<VerifyOtp/>} />
             <Route path='/login' element={<Login/>} />
             <Route path='/' element={<Ui/>} />
+            <Route path='service' element={<OurService/>}/>
+            <Route path='/about' element={<About />} />
         </Routes>
     )
 }

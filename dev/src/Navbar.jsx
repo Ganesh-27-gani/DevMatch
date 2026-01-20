@@ -32,6 +32,10 @@ function Navbar() {
           <img src={image} alt="#" style={{ height: "47px", width: "160px" }} />
         </Link>
 
+        <ul>
+          <Link to="/about"><li>about</li></Link>
+        </ul>
+
         <div className="collapse navbar-collapse" id="navbarNavDropdown">
           <ul className="navbar-nav ms-auto">
 
