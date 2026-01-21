@@ -29,7 +29,7 @@ function Navbar() {
       <div className="container-fluid">
 
         <Link className="navbar-brand" to="/">
-          <img src={image} alt="#" style={{ height: "47px", width: "160px" }} />
+          <img src={image} style={{ height: "47px", width: "160px" }} />
         </Link>
 
         <ul>
