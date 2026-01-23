@@ -2,9 +2,9 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import User from '../models/User.js';
 import { sendEmail } from "../utils/sendEmail.js";
+import { JWT_SECRET } from "../config/jwt.js";
 
-const JWT_SECRET = process.env.JWT_SECRET || 'devmatch_secret';
-
+ 
 const otpStore = new Map();
 
 export const register = async (req, res) => {
@@ -139,7 +139,7 @@ export const login = async (req, res) => {
     const token = jwt.sign(
       { id: user._id, role: user.role },
       JWT_SECRET,
-      { expiresIn: '7d' }
+      { expiresIn: '90d' }
     );
 
     res.status(200).json({
@@ -159,41 +159,41 @@ export const login = async (req, res) => {
 
 
 export const forgotPassword = async (req, res) => {
-  const { phone } = req.body;
-  const user = await User.findOne({ phone });
+  const { email } = req.body;
+  const user = await User.findOne({ email });
   if (!user) return res.status(404).json({ msg: 'User not found with this phone number' });
 
   const otp = Math.floor(100000 + Math.random() * 900000).toString();
-  otpStore.set(phone, otp);
-  console.log(`📲 OTP for ${phone}: ${otp}`);
+  otpStore.set(email, otp);
+  console.log(`📲 OTP for ${email}: ${otp}`);
 
   res.json({ msg: 'OTP sent successfully' });
 };
 
 
 export const verifyOtpAndReset = async (req, res) => {
-  const { phone, otp, newPassword } = req.body;
+  const { email, otp, newPassword } = req.body;
 
-  const storedOtp = otpStore.get(phone);
+  const storedOtp = otpStore.get(email);
   if (!storedOtp || storedOtp !== otp) return res.status(400).json({ msg: 'Invalid OTP' });
 
-  const user = await User.findOne({ phone });
+  const user = await User.findOne({ email });
   if (!user) return res.status(404).json({ msg: 'User not found' });
 
   const hashed = await bcrypt.hash(newPassword, 10);
   user.password = hashed;
   await user.save();
 
-  otpStore.delete(phone);
+  otpStore.delete(email);
   res.json({ msg: 'Password reset successful' });
 };
 
 export const sendProfileUpdateOtp = async (req, res) => {
-  const { phone } = req.body;
-  const phoneKey = phone.toString();
+  const { email } = req.body;
+  const phoneKey = email.toString();
   const otp = Math.floor(100000 + Math.random() * 900000).toString();
   otpStore.set(phoneKey, otp);
-  console.log(`🔁 OTP for update ${phone}: ${otp}`);
+  console.log(`🔁 OTP for update ${email}: ${otp}`);
   res.json({ msg: 'OTP sent for update verification' });
 };
 
@@ -202,8 +202,8 @@ export const sendProfileUpdateOtp = async (req, res) => {
 
 export const verifyOtpAndUpdateProfile = async (req, res) => {
   try {
-    const { userId, name, email, phone, otp } = req.body;
-    const phoneKey = phone.toString();
+    const { userId, name, email,  otp } = req.body;
+    const phoneKey = email.toString();
     const storedOtp = otpStore.get(phoneKey);
 
     if (!storedOtp || storedOtp !== otp) {
@@ -222,17 +222,9 @@ export const verifyOtpAndUpdateProfile = async (req, res) => {
       }
     }
 
-    if (phone && phone !== user.phone) {
-      const existingPhone = await User.findOne({ phone });
-      if (existingPhone && existingPhone._id.toString() !== userId) {
-        return res.status(400).json({ msg: 'Phone already in use' });
-      }
-    }
-
     user.name = name || user.name;
     user.email = email || user.email;
-    user.phone = phone || user.phone;
-    await user.save();
+     await user.save();
 
     otpStore.delete(phoneKey);
     res.json({ msg: 'Profile updated successfully', user });

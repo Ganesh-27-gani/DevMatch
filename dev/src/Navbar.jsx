@@ -34,6 +34,7 @@ function Navbar() {
 
         <ul>
           <Link to="/about"><li>about</li></Link>
+          <Link to="/contactus"><li>Contact Us</li></Link>
         </ul>
 
         <div className="collapse navbar-collapse" id="navbarNavDropdown">

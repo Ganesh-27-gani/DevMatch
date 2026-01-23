@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken';
 import User from '../models/User.js';
 
-const JWT_SECRET = process.env.JWT_SECRET || 'devmatch_secret';
+import { JWT_SECRET } from "../config/jwt.js";
 
 export const verifyToken = async (req, res, next) => {
   const authHeader = req.headers.authorization;

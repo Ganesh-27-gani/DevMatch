@@ -3,7 +3,7 @@ import React from "react";
 const OurService = () => {
     return (
         <>
-            <div style={{ background: "#161515fb" }}>
+            <div style={{ background: "#18141efb" }}>
                 <div className=" mb-2" style={{ padding: "30px" }}>
                     <h2 className="text-center text-light mb-3 ">Our Services</h2>
 

@@ -7,7 +7,7 @@ const Powered = () => {
     <footer>
        <div>
         <ul>
-            <li></li>
+            <li> hi</li>
         </ul>
        </div>
     </footer>

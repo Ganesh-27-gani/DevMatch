@@ -1,19 +1,21 @@
+import dotenv from 'dotenv';
 import express from 'express';
 import mongoose from 'mongoose';
-import dotenv from 'dotenv';
 import cors from 'cors';
 import authrout from './routes/authRout.js';
 import bookingRoutes from './routes/bookingRout.js';
 import adminRouts from './routes/adminRout.js';
+import contact from './routes/constctRoutes.js';
    
 dotenv.config();
 const app = express();
 app.use(cors());
 app.use(express.json());
  
-app.use('/api/devmatch/auth', authrout)
-app.use('/api/devmatch/bookings', bookingRoutes);
-app.use('/api/devmatch/admin', adminRouts);
+app.use('/api/digify/auth', authrout)
+app.use('/api/digify/bookings', bookingRoutes);
+app.use('/api/digify/admin', adminRouts);
+app.use("/api/digify/contact", contact)
  
 
 mongoose.connect(process.env.MONGODB_URI)
