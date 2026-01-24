@@ -1,16 +1,22 @@
- import ContactModel from "../models/contactModel.js";
- import nodemailer from "nodemailer";
- 
+import ContactModel from "../models/contactModel.js";
+import nodemailer from "nodemailer";
 export const contactUs = async (req, res) => {
+  console.log("REQ.USER", req.user);
+
   const { name, email, phone, subject, message } = req.body;
 
-  if (!name || !email || !message) {
-    return res.status(400).json({ msg: "Required fields missing" });
+  if (!req.user) {
+    return res.status(401).json({ msg: "Login required" });
+  }
+
+  if (!name || !email || !phone || !subject || !message) {
+    return res.status(400).json({ msg: "All fields are required" });
   }
 
   try {
-    // Save (optional)
+    // 1️⃣ Save contact in DB
     await ContactModel.create({
+      user: req.user._id,
       name,
       email,
       phone,
@@ -18,7 +24,7 @@ export const contactUs = async (req, res) => {
       message,
     });
 
-    // Email notification
+    // 2️⃣ Mail transporter
     const transporter = nodemailer.createTransport({
       service: "gmail",
       auth: {
@@ -27,11 +33,14 @@ export const contactUs = async (req, res) => {
       },
     });
 
+    // 3️⃣ EMAIL TO ADMIN
     await transporter.sendMail({
-      from: process.env.ADMIN_EMAIL,
+      from: `"DIGIFY Support" <${process.env.ADMIN_EMAIL}>`,
       to: process.env.ADMIN_EMAIL,
       subject: `New Contact: ${subject}`,
       text: `
+New contact received
+
 Name: ${name}
 Email: ${email}
 Phone: ${phone}
@@ -39,9 +48,31 @@ Message: ${message}
       `,
     });
 
-    res.status(200).json({ msg: "Message sent successfully" });
+    // 4️⃣ EMAIL TO USER ✅ (THIS WAS MISSING)
+    await transporter.sendMail({
+      from: `"DIGIFY Support" <${process.env.ADMIN_EMAIL}>`,
+      to: email, // 👈 USER EMAIL
+      subject: "We received your request",
+      text: `
+Hi ${name},
+
+Thank you for contacting DIGIFY.
+We have received your message and our team will contact you shortly.
+
+Your message:
+"${message}"
+
+Regards,
+DIGIFY Team
+      `,
+    });
+
+    res.status(200).json({
+      success: true,
+      msg: "Message sent successfully",
+    });
   } catch (err) {
-    console.error(err);
+    console.error("CONTACT ERROR ❌", err);
     res.status(500).json({ msg: "Failed to send message" });
   }
 };

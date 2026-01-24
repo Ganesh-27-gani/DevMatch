@@ -4,7 +4,9 @@ import User from '../models/User.js';
 import { sendEmail } from "../utils/sendEmail.js";
 import { JWT_SECRET } from "../config/jwt.js";
 
- 
+
+//  const JWT_SECRET = process.env.JWT_SECRET || 'digify_secret';
+
 const otpStore = new Map();
 
 export const register = async (req, res) => {
@@ -141,6 +143,8 @@ export const login = async (req, res) => {
       JWT_SECRET,
       { expiresIn: '90d' }
     );
+    // console.log("LOGIN JWT_SECRET:", JWT_SECRET);
+
 
     res.status(200).json({
       msg: 'Login successful',
@@ -151,6 +155,7 @@ export const login = async (req, res) => {
         email: user.email,
         role: user.role
       }
+
     });
   } catch (err) {
     res.status(500).json({ msg: 'Login error', error: err.message });
@@ -202,7 +207,7 @@ export const sendProfileUpdateOtp = async (req, res) => {
 
 export const verifyOtpAndUpdateProfile = async (req, res) => {
   try {
-    const { userId, name, email,  otp } = req.body;
+    const { userId, name, email, otp } = req.body;
     const phoneKey = email.toString();
     const storedOtp = otpStore.get(phoneKey);
 
@@ -224,7 +229,7 @@ export const verifyOtpAndUpdateProfile = async (req, res) => {
 
     user.name = name || user.name;
     user.email = email || user.email;
-     await user.save();
+    await user.save();
 
     otpStore.delete(phoneKey);
     res.json({ msg: 'Profile updated successfully', user });

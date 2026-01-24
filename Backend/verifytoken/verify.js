@@ -1,8 +1,8 @@
 import jwt from 'jsonwebtoken';
 import User from '../models/User.js';
-
 import { JWT_SECRET } from "../config/jwt.js";
 
+// const JWT_SECRET = process.env.JWT_SECRET || 'digify_secret';
 export const verifyToken = async (req, res, next) => {
   const authHeader = req.headers.authorization;
 
@@ -22,6 +22,9 @@ export const verifyToken = async (req, res, next) => {
     return res.status(401).json({ msg: 'Invalid token', error: err.message });
   }
 };
+
+
+
 export const verifyAdmin = (req, res, next) => {
   try {
     if (req.user?.role !== 'admin') {

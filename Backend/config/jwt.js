@@ -6,4 +6,4 @@ if (!process.env.JWT_SECRET) {
   process.exit(1);
 }
 
-export const JWT_SECRET = process.env.JWT_SECRET;
+ export const JWT_SECRET = process.env.JWT_SECRET || "digify_secret";
