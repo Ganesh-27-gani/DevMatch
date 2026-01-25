@@ -1,7 +1,21 @@
 import React from "react";
 import image from "./assets/images/ui.png";
+import { useNavigate } from "react-router-dom";
 
 const Ui = () => {
+  const navigate = useNavigate();
+
+  const handleGetStarted = () => {
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      // save where user should go after login
+      localStorage.setItem("redirectAfterLogin", "/contactus");
+      navigate("/login");
+    } else {
+      navigate("/contactus");
+    }
+  };
   return (
     <>
       <div style={{ position: "relative", width: "100%" }}>
@@ -53,6 +67,7 @@ const Ui = () => {
             solutions.
           </p>
           <button
+            onClick={handleGetStarted}
             style={{
               position: "relative",
               marginTop: "10px",
@@ -68,12 +83,11 @@ const Ui = () => {
               cursor: "pointer",
               display: "inline-block",
               width: "auto",
-              alignSelf: "flex-start"
+              alignSelf: "flex-start",
             }}
           >
             Get Started
           </button>
-
         </div>
       </div>
     </>

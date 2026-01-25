@@ -1,5 +1,6 @@
 import ContactModel from "../models/contactModel.js";
 import nodemailer from "nodemailer";
+
 export const contactUs = async (req, res) => {
   console.log("REQ.USER", req.user);
 
@@ -81,7 +82,7 @@ DIGIFY Team
 
 export const getMyContacts = async (req, res) => {
   try {
-    const contacts = await Contact.find({ user: req.user.id })
+    const contacts = await ContactModel.find({ user: req.user._id })
       .sort({ createdAt: -1 });
 
     res.json(contacts);
@@ -89,3 +90,17 @@ export const getMyContacts = async (req, res) => {
     res.status(500).json({ msg: "Failed to fetch contacts" });
   }
 };
+
+export const getAllContacts = async (req, res) => {
+  try {
+    const contacts = await ContactModel.find()
+      .populate("user", "name email role")  
+      .sort({ createdAt: -1 });
+
+    res.status(200).json(contacts);
+  } catch (err) {
+    console.error("ADMIN GET CONTACTS ERROR", err);
+    res.status(500).json({ msg: "Failed to fetch contacts" });
+  }
+};
+

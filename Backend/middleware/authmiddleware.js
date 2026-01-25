@@ -2,7 +2,7 @@ import jwt from "jsonwebtoken";
 import User from "../models/User.js";
 import { JWT_SECRET } from "../config/jwt.js";
 
-const authMiddleware = async (req, res, next) => {
+export const authMiddleware = async (req, res, next) => {
   try {
     const authHeader = req.headers.authorization;
 
@@ -20,7 +20,7 @@ const authMiddleware = async (req, res, next) => {
       return res.status(401).json({ msg: "User not found" });
     }
 
-    req.user = user; // ✅ FULL USER OBJECT
+    req.user = user;
     // console.log("VERIFY JWT_SECRET:", JWT_SECRET);
 
     next();
@@ -30,4 +30,11 @@ const authMiddleware = async (req, res, next) => {
   }
 };
 
-export default authMiddleware;
+export const adminMiddleware = (req, res, next) => {
+  if (!req.user || req.user.role !== "admin") {
+    return res.status(403).json({ msg: "Admin access only" });
+  }
+  next();
+};
+
+ 
