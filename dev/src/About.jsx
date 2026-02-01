@@ -2,7 +2,7 @@ import React from 'react'
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
-
+ 
 
 const About = () => {
 
@@ -22,8 +22,10 @@ const settings = {
 
   return (
      
-    <div style={{backgroundColor:"red"}}>
+    <div style={{background: "linear-gradient(135deg, #957c7c74, #eccaca)", padding:"40px 70px", textAlign:"center"}}>
+      <h2 className='text-center mb-4' >About US...</h2>
       <Slider {...settings} >
+        
         
         <div>
           <h3>

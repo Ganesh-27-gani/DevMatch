@@ -4,7 +4,8 @@ const OurService = () => {
     return (
         <>
             <div style={{ background: "#18141efb" }}>
-                <div className=" mb-2" style={{ padding: "30px" }}>
+                  <div className="container-fluid p-0">
+                <div style={{ padding: "30px" }}>
                     <h2 className="text-center text-light mb-3 ">Our Services</h2>
 
                     <div className="row g-4">
@@ -112,6 +113,7 @@ const OurService = () => {
                         </div>
                     </div>
                 </div>
+            </div>
             </div>
         </>
     );
