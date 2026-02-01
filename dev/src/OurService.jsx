@@ -18,7 +18,7 @@ const OurService = () => {
                                         Digital Marketing
                                     </h5>
                                     <p className="card-text mb-4 text-white ">
-                                        Social media marketing, brand promotion & online growth.
+                                        Social media marketing, brand promotion & Business growth.
                                     </p>
                                     <button
                                         className="btn text-white px-4 py-2"
@@ -32,7 +32,7 @@ const OurService = () => {
                                 style={{ background: "linear-gradient(135deg, #938e8e2b, #666669)", borderRadius: "16px" }}  >
                                 <div className="card-body text-center">
                                     <h5 className="card-title fw-bold mb-3 text-white">
-                                        Social Media Ads
+                                        Social Media Marketing
                                     </h5>
                                     <p className="card-text text-white mb-4 ">
                                         Facebook, Instagram & Google paid ad campaigns.
@@ -66,10 +66,10 @@ const OurService = () => {
                                 style={{ background: "linear-gradient(135deg, #938e8e2b, #666669)", borderRadius: "16px" }}  >
                                 <div className="card-body text-center">
                                     <h5 className="card-title fw-bold mb-3 text-white">
-                                        SEO Optimization
+                                          Analytics & Improvement
                                     </h5>
                                     <p className="card-text text-white mb-4">
-                                        Improve Google ranking & organic website traffic.
+                                       Performance tracking, insights & continuous improvement.
                                     </p>
                                     <button
                                         className="btn text-white px-4 py-2"
@@ -86,7 +86,7 @@ const OurService = () => {
                                         E-Commerce Solutions
                                     </h5>
                                     <p className="card-text text-white mb-4">
-                                        Online stores with payment & product management.
+                                        Online stores with secure payment & product management.
                                     </p>
                                     <button
                                         className="btn text-white px-4 py-2"
@@ -100,9 +100,9 @@ const OurService = () => {
                                 style={{ background: "linear-gradient(135deg, #938e8e2b, #666669)", borderRadius: "16px" }}  >
                                 <div className="card-body text-center">
                                     <h5 className="card-title fw-bold mb-3 text-white">
-                                        UI / UX Design                                    </h5>
+                                       Branding & Strategy</h5>
                                     <p className="card-text text-white mb-4">
-                                        Modern, user-friendly and responsive designs.
+                                       Brand identity, positioning & digital growth strategy.
                                     </p>
                                     <button
                                         className="btn text-white px-4 py-2"

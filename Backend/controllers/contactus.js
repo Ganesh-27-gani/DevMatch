@@ -15,7 +15,7 @@ export const contactUs = async (req, res) => {
   }
 
   try {
-    // 1️⃣ Save contact in DB
+  
     await ContactModel.create({
       user: req.user._id,
       name,
@@ -52,7 +52,7 @@ Message: ${message}
     // 4️⃣ EMAIL TO USER ✅ (THIS WAS MISSING)
     await transporter.sendMail({
       from: `"DIGIFY Support" <${process.env.ADMIN_EMAIL}>`,
-      to: email, // 👈 USER EMAIL
+      to: email, 
       subject: "We received your request",
       text: `
 Hi ${name},
