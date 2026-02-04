@@ -5,56 +5,41 @@ const Powered = () => {
   return (
     <footer
       style={{
-        backgroundColor: "#111",
+        background:"#15111aec",
         color: "#fff",
-        padding: "50px 20px",
+        padding: "45px 20px",
         fontFamily: "Arial, sans-serif",
       }}
     >
-      <div
-        style={{
-          display: "flex",
-          flexWrap: "wrap",
-          gap: "40px",
-          justifyContent: "space-between",
-        }}
-      >
-        {/* Contact Us */}
-        <div style={{ flex: "1 1 250px", minWidth: "200px" }}>
-          <h5 style={{ marginBottom: "12px", fontSize: "16px" }}>Contact Us</h5>
+      <div style={{display: "flex", flexWrap: "wrap",justifyContent: "flex-start",  }}>
+        <div className="me-5"style={{flex: "1 1 900px", maxWidth: "1000px",  position: "relative", right: "150px" }}>
+          <h5 style={{marginBottom: "20px",fontSize: "20px",fontWeight: "600",textAlign: "center",color: "#fff" }} >
+            Contact Us
+          </h5>
+
           <ContactUs />
         </div>
-
-        {/* Recent Projects */}
-        <div style={{ flex: "1 1 250px", minWidth: "200px" }}>
-          <h5 style={{ marginBottom: "12px", fontSize: "16px" }}>Recent Projects</h5>
-          <ul style={{ listStyle: "none", padding: 0 }}>
-            <li>Project A</li>
-            <li>Project B</li>
-            <li>Project C</li>
-          </ul>
-        </div>
-
-        {/* More About Us */}
-        <div style={{ flex: "1 1 200px", minWidth: "200px" }}>
-          <h5 style={{ marginBottom: "12px", fontSize: "16px" }}>More About Us</h5>
-          <ul style={{ listStyle: "none", padding: 0 }}>
-            <li>Our Story</li>
-            <li>Careers</li>
-            <li>Blog</li>
-          </ul>
-        </div>
-
-        {/* Social */}
-        <div style={{ flex: "1 1 150px", minWidth: "150px" }}>
-          <h5 style={{ marginBottom: "12px", fontSize: "16px" }}>Social</h5>
-          <div style={{ display: "flex", gap: "10px" }}>
-            <a href="#" style={{ color: "#fff", textDecoration: "none" }}>FB</a>
-            <a href="#" style={{ color: "#fff", textDecoration: "none" }}>TW</a>
-            <a href="#" style={{ color: "#fff", textDecoration: "none" }}>IN</a>
+         <div style={{display:"flex",gap:"180px", position:"relative",right:"27%"}}>
+          <div>
+            <h5>Recent Project</h5>
+            <ul>
+            
+            </ul>
           </div>
-        </div>
-      </div>
+          <div>
+            <h5>About US</h5>
+            <ul>
+            
+            </ul>
+          </div>
+          <div>
+            <h5>Social Media</h5>
+            <ul>
+            
+            </ul>
+          </div>
+          </div>
+       </div>
 
       <div style={{ textAlign: "center", marginTop: "40px", fontSize: "14px", color: "#aaa" }}>
         © 2026 Your Company. All rights reserved.

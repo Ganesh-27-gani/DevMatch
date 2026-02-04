@@ -21,8 +21,8 @@ const settings = {
 
 
   return (
-     
-    <div style={{background: "linear-gradient(135deg, #957c7c74, #eccaca)", padding:"40px 70px", textAlign:"center"}}>
+     <>
+    <div style={{background: "linear-gradient(135deg, #777e87, #caddec)", padding:"40px 70px", textAlign:"center"}}>
       <h2 className='text-center mb-4' >About US...</h2>
       <Slider {...settings} >
         
@@ -57,8 +57,10 @@ const settings = {
         
       </Slider>
       </div>
-
-    
+      <div style={{padding:"60px", textAlign:"center", backgroundColor:" #9fc7e9"}}>
+        <h1>Stop blending in. Start leaving your mark—talk to our designers</h1>
+      </div>
+    </>
   )
 }
 

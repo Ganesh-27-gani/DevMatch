@@ -123,7 +123,7 @@ const ContactUs = () => {
               />
             </div>
 
-            <button className="btn btn-warning w-100">
+            <button className="btn btn-warning w-100 mb-5">
               Send Message
             </button>
           </form>
