@@ -1,51 +1,83 @@
 import React from "react";
-import ContactUs from "./ContactUs";
-
+import { FaSquareInstagram, FaYoutube } from "react-icons/fa6";
+import { FaLinkedinIn } from "react-icons/fa";
+import image from "./assets/images/logo3.png"
+ 
 const Powered = () => {
   return (
     <footer
       style={{
-        background:"#15111aec",
+        background: "linear-gradient(90deg, #0f0c14, #15111a)",
         color: "#fff",
-        padding: "45px 20px",
+        padding: "60px 80px",
         fontFamily: "Arial, sans-serif",
       }}
     >
-      <div style={{display: "flex", flexWrap: "wrap",justifyContent: "flex-start",  }}>
-        <div className="me-5"style={{flex: "1 1 900px", maxWidth: "1000px",  position: "relative", right: "150px" }}>
-          <h5 style={{marginBottom: "20px",fontSize: "20px",fontWeight: "600",textAlign: "center",color: "#fff" }} >
-            Contact Us
-          </h5>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          flexWrap: "wrap",
+        }}
+      >
+        <img src={image} alt="" style={{width:"20%", height:"80px", position:"relative",bottom:"60px"}}/>
+         <div>
+          <h1
+            style={{
+              fontSize: "56px",
+              color: "#f4b400",
+              marginBottom: "20px",
+            }}
+          >
+            Let’s talk
+          </h1>
 
-          <ContactUs />
+          <div style={{ display: "flex", gap: "12px" }}>
+            <span style={iconStyle}><FaLinkedinIn /></span>
+            <span style={iconStyle}><FaSquareInstagram /></span>
+            <span style={iconStyle}><FaYoutube /></span>
+          </div>
         </div>
-         <div style={{display:"flex",gap:"180px", position:"relative",right:"27%"}}>
-          <div>
-            <h5>Recent Project</h5>
-            <ul>
-            
-            </ul>
-          </div>
-          <div>
-            <h5>About US</h5>
-            <ul>
-            
-            </ul>
-          </div>
-          <div>
-            <h5>Social Media</h5>
-            <ul>
-            
-            </ul>
-          </div>
-          </div>
-       </div>
 
-      <div style={{ textAlign: "center", marginTop: "40px", fontSize: "14px", color: "#aaa" }}>
-        © 2026 Your Company. All rights reserved.
+         <div style={{ textAlign: "right", fontSize: "14px", color: "#ccc" }}>
+          <h1 style={{ margin: "6px 0" }}>
+            Our info
+          </h1>
+
+          <p style={{ margin: "6px 0" }}>
+            digifywebandmedia@gmail.com
+          </p>
+
+          <p style={{ margin: "6px 0" }}>
+            +19 798-997-2526
+          </p>
+
+          <div style={{ marginTop: "15px", fontSize: "12px" }}>
+            <span style={{ marginRight: "10px", cursor: "pointer" }}>
+              Privacy Policy
+            </span>
+            |
+            <span style={{ marginLeft: "10px", cursor: "pointer" }}>
+              Terms & Conditions
+            </span>
+          </div>
+        </div>
       </div>
+
     </footer>
   );
+};
+
+const iconStyle = {
+  width: "36px",
+  height: "36px",
+  borderRadius: "50%",
+  background: "#1f1b29",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  cursor: "pointer",
 };
 
 export default Powered;

@@ -26,14 +26,14 @@ const ContactUs = () => {
 
     const token = localStorage.getItem("token");
 
-     if (!token) {
+    if (!token) {
       navigate("/login");
       return;
     }
 
     try {
       await axios.post(
-        ` ${BASE_URL}/contact/contactus`,
+        `${BASE_URL}/contact/contactus`,
         formData,
         {
           headers: {
@@ -51,86 +51,141 @@ const ContactUs = () => {
         subject: "",
         message: "",
       });
-
     } catch (err) {
-      console.error(err);
       alert(err.response?.data?.msg || "Something went wrong");
     }
   };
 
   return (
-    <div className="container mt-5">
-      <div className="row justify-content-center">
-        <div className="col-4">
-          <form onSubmit={handleSubmit}>
-            <div className="mb-3">
-              <label className="form-label">Name</label>
-              <input
-                type="text"
-                className="form-control"
-                name="name"
-                value={formData.name}
-                onChange={handleChange}
-                required
-              />
-            </div>
+    <div
+      style={{
+        minHeight: "100vh",
+        backgroundColor: "#0b0b0b",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+      }}
+    >
+      <div
+        style={{
+          backgroundColor: "#1a1a1a",
+          padding: "40px",
+          display: "flex",
+          gap: "50px",
+          width: "900px",
+        }}
+      >
+        {/* LEFT FORM */}
+        <form
+          onSubmit={handleSubmit}
+          style={{
+            backgroundColor: "#111",
+            padding: "25px",
+            width: "320px",
+          }}
+        >
+          <input
+            type="text"
+            name="name"
+            placeholder="What's your name?"
+            value={formData.name}
+            onChange={handleChange}
+            required
+            style={inputStyle}
+          />
 
-            <div className="mb-3">
-              <label className="form-label">Email</label>
-              <input
-                type="email"
-                className="form-control"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-                required
-              />
-            </div>
+          <input
+            type="email"
+            name="email"
+            placeholder="Your email"
+            value={formData.email}
+            onChange={handleChange}
+            required
+            style={inputStyle}
+          />
 
-            <div className="mb-3">
-              <label className="form-label">Phone Number</label>
-              <input
-                type="number"
-                className="form-control"
-                name="phone"
-                value={formData.phone}
-                onChange={handleChange}
-                required
-              />
-            </div>
+          <input
+            type="number"
+            name="phone"
+            placeholder="Phone number"
+            value={formData.phone}
+            onChange={handleChange}
+            required
+            style={inputStyle}
+          />
 
-            <div className="mb-3">
-              <label className="form-label">Subject</label>
-              <input
-                type="text"
-                className="form-control"
-                name="subject"
-                value={formData.subject}
-                onChange={handleChange}
-                required
-              />
-            </div>
+          <input
+            type="text"
+            name="subject"
+            placeholder="Subject"
+            value={formData.subject}
+            onChange={handleChange}
+            required
+            style={inputStyle}
+          />
 
-            <div className="mb-3">
-              <label className="form-label">Your message</label>
-              <textarea
-                className="form-control"
-                name="message"
-                rows="3"
-                value={formData.message}
-                onChange={handleChange}
-                required
-              />
-            </div>
+          <textarea
+            name="message"
+            placeholder="Message"
+            rows="4"
+            value={formData.message}
+            onChange={handleChange}
+            required
+            style={{ ...inputStyle, resize: "none" }}
+          />
 
-            <button className="btn btn-warning w-100 mb-5">
-              Send Message
-            </button>
-          </form>
+          <button
+            type="submit"
+            style={{
+              width: "100%",
+              padding: "10px",
+              backgroundColor: "#f4b400",
+              border: "none",
+              fontWeight: "bold",
+              cursor: "pointer",
+              marginTop: "10px",
+            }}
+          >
+            Send Message
+          </button>
+        </form>
+
+        {/* RIGHT TEXT */}
+        <div style={{ color: "#fff", maxWidth: "400px" }}>
+          <p style={{ color: "#ccc", fontSize: "14px" }}>
+            Have any queries?
+          </p>
+
+          <h1
+            style={{
+              color: "#f4b400",
+              fontSize: "36px",
+              margin: "10px 0",
+            }}
+          >
+            CONTACT US
+          </h1>
+
+          <p style={{ color: "#aaa", fontSize: "14px", lineHeight: "1.6" }}>
+            There’s necessary for continuous care, this evaluation to
+            problem frequency, quite organization must surprise larger
+            various values.
+          </p>
         </div>
       </div>
     </div>
   );
+};
+
+/* INPUT STYLE */
+const inputStyle = {
+  width: "100%",
+  padding: "12px",
+  marginBottom: "15px",
+  backgroundColor: "#1f1f1f",
+  border: "none",
+  color: "#fff",
+  fontSize: "14px",
 };
 
 export default ContactUs;

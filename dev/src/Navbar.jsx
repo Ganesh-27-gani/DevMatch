@@ -25,7 +25,7 @@ function Navbar() {
   };
 
   return (
-    <nav className="navbar navbar-expand-lg navbar-light" style={{ background: "rgb(3, 3, 4)" }}>
+    <nav className="navbar navbar-expand-lg navbar-light" style={{ background: "rgb(3, 3, 4)", position:"sticky" }}>
       <div className="container-fluid">
 
         <Link className="navbar-brand" to="/">
