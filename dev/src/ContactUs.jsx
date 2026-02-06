@@ -59,7 +59,7 @@ const ContactUs = () => {
   return (
     <div
       style={{
-        minHeight: "100vh",
+        minHeight: "85vh",
         backgroundColor: "#0b0b0b",
         display: "flex",
         alignItems: "center",
@@ -75,8 +75,7 @@ const ContactUs = () => {
           width: "900px",
         }}
       >
-        {/* LEFT FORM */}
-        <form
+         <form
           onSubmit={handleSubmit}
           style={{
             backgroundColor: "#111",
@@ -150,8 +149,7 @@ const ContactUs = () => {
           </button>
         </form>
 
-        {/* RIGHT TEXT */}
-        <div style={{ color: "#fff", maxWidth: "400px" }}>
+         <div style={{ color: "#fff", maxWidth: "400px",  marginTop:"150px"}}>
           <p style={{ color: "#ccc", fontSize: "14px" }}>
             Have any queries?
           </p>
@@ -167,9 +165,7 @@ const ContactUs = () => {
           </h1>
 
           <p style={{ color: "#aaa", fontSize: "14px", lineHeight: "1.6" }}>
-            There’s necessary for continuous care, this evaluation to
-            problem frequency, quite organization must surprise larger
-            various values.
+           Contact us and tell us what you need. Our team will carefully understand your requirements and provide the right solution with continuous support.
           </p>
         </div>
       </div>
@@ -177,8 +173,7 @@ const ContactUs = () => {
   );
 };
 
-/* INPUT STYLE */
-const inputStyle = {
+ const inputStyle = {
   width: "100%",
   padding: "12px",
   marginBottom: "15px",

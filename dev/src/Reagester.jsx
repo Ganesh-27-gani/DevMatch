@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
-import registerImg from "./assets/images/register1.png";
-import "./Register.css";
+ import "./Register.css";
 import { BASE_URL } from "./utils/config";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
@@ -104,8 +103,7 @@ function Register() {
     }
   };
 
-  // Verify OTP
-  const verifyOtp = async (e) => {
+   const verifyOtp = async (e) => {
     e.preventDefault();
     if (otp.trim().length !== 6) {
       Swal.fire({ icon: "error", title: "Invalid OTP", text: "Enter 6-digit OTP" });
@@ -227,9 +225,7 @@ function Register() {
           </form>
         )}
 
-        <div className="register-image">
-          <img src={registerImg} alt="register" />
-        </div>
+         
       </div>
     </div>
   );
